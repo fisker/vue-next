@@ -257,12 +257,12 @@ export function applyOptions(
             set: isFunction(set)
               ? set.bind(ctx)
               : __DEV__
-                ? () => {
-                    warn(
-                      `Computed property "${key}" was assigned to but it has no setter.`
-                    )
-                  }
-                : NOOP
+              ? () => {
+                  warn(
+                    `Computed property "${key}" was assigned to but it has no setter.`
+                  )
+                }
+              : NOOP
           })
         } else if (__DEV__) {
           warn(`Computed property "${key}" has no getter.`)

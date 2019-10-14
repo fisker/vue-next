@@ -117,8 +117,8 @@ export const transformFor = createStructuralDirectiveTransform(
         : isTemplate &&
           node.children.length === 1 &&
           isSlotOutlet(node.children[0])
-          ? node.children[0]
-          : null
+        ? node.children[0]
+        : null
       const keyProperty = keyProp
         ? createObjectProperty(
             `key`,

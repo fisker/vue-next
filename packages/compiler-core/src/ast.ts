@@ -533,10 +533,12 @@ type InferCodegenNodeType<T> = T extends
   | typeof CREATE_BLOCK
   ? PlainElementCodegenNode | PlainComponentCodegenNode
   : T extends typeof APPLY_DIRECTIVES
-    ?
-        | CodegenNodeWithDirective<PlainElementCodegenNode>
-        | CodegenNodeWithDirective<PlainComponentCodegenNode>
-    : T extends typeof RENDER_SLOT ? SlotOutletCodegenNode : CallExpression
+  ?
+      | CodegenNodeWithDirective<PlainElementCodegenNode>
+      | CodegenNodeWithDirective<PlainComponentCodegenNode>
+  : T extends typeof RENDER_SLOT
+  ? SlotOutletCodegenNode
+  : CallExpression
 
 export function createCallExpression<T extends CallExpression['callee']>(
   callee: T,

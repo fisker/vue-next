@@ -58,7 +58,7 @@ export const enum LifecycleHooks {
   ERROR_CAPTURED = 'ec'
 }
 
-type Emit = ((event: string, ...args: unknown[]) => void)
+type Emit = (event: string, ...args: unknown[]) => void
 
 export interface SetupContext {
   attrs: Data

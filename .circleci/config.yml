@@ -50,4 +50,4 @@ jobs:
 
       - run:
           name: Linting Code Style
-          command: npx prettier --check "**/*.{ts,js,json,yaml,md,css}"
+          command: npx prettier "**/*.{ts,js,json,yaml,md,css}" --check

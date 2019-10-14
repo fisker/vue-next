@@ -9,7 +9,7 @@
     "size-runtime": "node scripts/build.js runtime-dom -p -f global",
     "size-compiler": "node scripts/build.js compiler-dom -p -f global",
     "size": "yarn size-runtime && yarn size-compiler",
-    "lint": "prettier --write --parser typescript 'packages/**/*.ts'",
+    "lint": "prettier \"packages/**/*.ts\" --write",
     "test": "jest"
   },
   "gitHooks": {
@@ -17,12 +17,8 @@
     "commit-msg": "node scripts/verifyCommit.js"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{ts,js,json,yaml,md,css}": [
       "prettier --write",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --parser=typescript --write",
       "git add"
     ]
   },
@@ -37,7 +33,7 @@
     "lerna": "^3.16.4",
     "lint-staged": "^9.2.3",
     "minimist": "^1.2.0",
-    "prettier": "~1.14.0",
+    "prettier": "~1.18.2",
     "rollup": "^1.19.4",
     "rollup-plugin-alias": "^2.0.0",
     "rollup-plugin-json": "^4.0.0",
