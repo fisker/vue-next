@@ -50,23 +50,23 @@ export interface VNodeProps {
   ref?: string | Ref | ((ref: object | null) => void)
 }
 
-type VNodeChildAtom<HostNode, HostElement> =
+export type VNodeChild<HostNode = any, HostElement = any> =
   | VNode<HostNode, HostElement>
   | string
   | number
   | boolean
   | null
   | void
+  | VNodeChild<HostNode, HostElement>[]
 
-export interface VNodeChildren<HostNode = any, HostElement = any>
-  extends Array<
-      | VNodeChildren<HostNode, HostElement>
-      | VNodeChildAtom<HostNode, HostElement>
-    > {}
+export type VNodeChildren<HostNode = any, HostElement = any> = VNodeChild<
+  HostNode,
+  HostElement
+>[]
 
-export type VNodeChild<HostNode = any, HostElement = any> =
-  | VNodeChildAtom<HostNode, HostElement>
-  | VNodeChildren<HostNode, HostElement>
+// export type VNodeChild<HostNode = any, HostElement = any> =
+//   | VNodeChildAtom<HostNode, HostElement>
+//   | VNodeChildren<HostNode, HostElement>
 
 export type NormalizedChildren<HostNode = any, HostElement = any> =
   | string
