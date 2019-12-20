@@ -2,63 +2,46 @@ version: 2
 
 defaults: &defaults
   docker:
-    - image: circleci/node:latest-browsers
-  working_directory: ~/project/vue
+    - image: vuejs/ci
+
+deps: &deps
+  - checkout
+  - restore_cache:
+      keys:
+      - v1-dependencies-{{ checksum "yarn.lock" }}
+      - v1-dependencies-
+  - run:
+      name: Install Dependencies
+      command: yarn --frozen-lockfile
+  - save_cache:
+      paths:
+        - node_modules
+        - ~/.cache/yarn
+      key: v1-dependencies-{{ checksum "yarn.lock" }}
 
 jobs:
-  install:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}-{{ arch }}
-          - v1-dependencies-
-      - run:
-          name: Install Dependencies
-          command: yarn --frozen-lockfile
-      - save_cache:
-          paths:
-            - node_modules
-            - ~/.cache/yarn
-          key: v1-dependencies-{{ checksum "yarn.lock" }}-{{ arch }}
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - vue
-
   test:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/project
+      <<: *deps
       - run: yarn test --ci --runInBand
 
   test-dts:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/project
+      <<: *deps
       - run: yarn test-dts
 
   check-size:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/project
+      <<: *deps
       - run: yarn size
 
 workflows:
   version: 2
   ci:
     jobs:
-      - install
-      - test:
-          requires:
-            - install
-      - test-dts:
-          requires:
-            - install
-      - check-size:
-          requires:
-            - install
+      - test
+      - test-dts
+      - check-size
