@@ -2,7 +2,7 @@ version: 2
 
 defaults: &defaults
   docker:
-    - image: vuejs/ci
+    - image: circleci/node:latest-browsers
   working_directory: ~/project/vue
 
 jobs:
