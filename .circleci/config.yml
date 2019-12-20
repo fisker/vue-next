@@ -5,37 +5,35 @@ defaults: &defaults
     - image: vuejs/ci
 
 deps: &deps
-  - checkout
-  - restore_cache:
-      keys:
-      - v1-dependencies-{{ checksum "yarn.lock" }}
-      - v1-dependencies-
-  - run:
-      name: Install Dependencies
-      command: yarn --frozen-lockfile
-  - save_cache:
-      paths:
-        - node_modules
-        - ~/.cache/yarn
-      key: v1-dependencies-{{ checksum "yarn.lock" }}
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "yarn.lock" }}
+        - v1-dependencies-
+    - run:
+        name: Install Dependencies
+        command: yarn --frozen-lockfile
+    - save_cache:
+        paths:
+          - node_modules
+          - ~/.cache/yarn
+        key: v1-dependencies-{{ checksum "yarn.lock" }}
 
 jobs:
   test:
     <<: *defaults
-    steps:
-      <<: *deps
+    <<: *deps
       - run: yarn test --ci --runInBand
 
   test-dts:
     <<: *defaults
-    steps:
-      <<: *deps
+    <<: *deps
       - run: yarn test-dts
 
   check-size:
     <<: *defaults
-    steps:
-      <<: *deps
+    <<: *deps
       - run: yarn size
 
 workflows:
