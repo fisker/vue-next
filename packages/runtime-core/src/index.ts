@@ -17,7 +17,7 @@ export {
   markNonReactive
 } from '@vue/reactivity'
 export { computed } from './apiComputed'
-export { watch } from './apiWatch'
+export { effect, watch } from './apiWatch'
 export {
   onBeforeMount,
   onMounted,

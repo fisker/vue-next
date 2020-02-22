@@ -1,5 +1,5 @@
 import {
-  effect,
+  effect as _effect,
   stop,
   isRef,
   Ref,
@@ -71,6 +71,17 @@ export type StopHandle = () => void
 
 const invoke = (fn: Function) => fn()
 
+// Simple effect.
+// the effect API exposed through Vue is higher level than the effect inside
+// the reactivity package, as it integrates with runtime-core's scheduler and
+// component lifecycle.
+export function effect(
+  effect: WatchEffect,
+  options?: BaseWatchOptions
+): StopHandle {
+  return doWatch(effect, null, options)
+}
+
 // initial value for watchers to trigger on undefined initial values
 const INITIAL_WATCHER_VALUE = {}
 
@@ -110,6 +121,13 @@ export function watch<T = any>(
     // watch(source, cb)
     return doWatch(effectOrSource, cbOrOptions, options)
   } else {
+    // TODO remove this in the next release
+    __DEV__ &&
+      warn(
+        `\`watch(fn, options?)\` signature has been moved to a separate API. ` +
+          `Use \`effect(fn, options?)\` instead. \`watch\` will only support the ` +
+          `\`watch(source, cb, options?) signature in the next release.`
+      )
     // watch(effect)
     return doWatch(effectOrSource, null, cbOrOptions)
   }
@@ -240,7 +258,7 @@ function doWatch(
     }
   }
 
-  const runner = effect(getter, {
+  const runner = _effect(getter, {
     lazy: true,
     // so it runs before component update effects in pre flush mode
     computed: true,
