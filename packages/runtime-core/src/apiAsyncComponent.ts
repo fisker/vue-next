@@ -1,21 +1,17 @@
 import {
-  PublicAPIComponent,
   Component,
   currentInstance,
   ComponentInternalInstance,
   isInSSRComponentSetup
 } from './component'
 import { isFunction, isObject } from '@vue/shared'
-import { ComponentPublicInstance } from './componentProxy'
 import { createVNode } from './vnode'
 import { defineComponent } from './apiDefineComponent'
 import { warn } from './warning'
 import { ref } from '@vue/reactivity'
 import { handleError, ErrorCodes } from './errorHandling'
 
-export type AsyncComponentResolveResult<T = PublicAPIComponent> =
-  | T
-  | { default: T } // es modules
+export type AsyncComponentResolveResult<T = Component> = T | { default: T } // es modules
 
 export type AsyncComponentLoader<T = any> = () => Promise<
   AsyncComponentResolveResult<T>
@@ -23,8 +19,8 @@ export type AsyncComponentLoader<T = any> = () => Promise<
 
 export interface AsyncComponentOptions<T = any> {
   loader: AsyncComponentLoader<T>
-  loadingComponent?: PublicAPIComponent
-  errorComponent?: PublicAPIComponent
+  loadingComponent?: Component
+  errorComponent?: Component
   delay?: number
   timeout?: number
   suspensible?: boolean
@@ -36,9 +32,9 @@ export interface AsyncComponentOptions<T = any> {
   ) => any
 }
 
-export function defineAsyncComponent<
-  T extends PublicAPIComponent = { new (): ComponentPublicInstance }
->(source: AsyncComponentLoader<T> | AsyncComponentOptions<T>): T {
+export function defineAsyncComponent<T extends Component>(
+  source: AsyncComponentLoader<T> | AsyncComponentOptions<T>
+): T {
   if (isFunction(source)) {
     source = { loader: source }
   }

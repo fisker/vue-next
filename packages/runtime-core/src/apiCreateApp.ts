@@ -1,9 +1,4 @@
-import {
-  Component,
-  Data,
-  validateComponentName,
-  PublicAPIComponent
-} from './component'
+import { Component, Data, validateComponentName } from './component'
 import { ComponentOptions } from './componentOptions'
 import { ComponentPublicInstance } from './componentProxy'
 import { Directive, validateDirectiveName } from './directives'
@@ -18,8 +13,8 @@ export interface App<HostElement = any> {
   config: AppConfig
   use(plugin: Plugin, ...options: any[]): this
   mixin(mixin: ComponentOptions): this
-  component(name: string): PublicAPIComponent | undefined
-  component(name: string, component: PublicAPIComponent): this
+  component(name: string): Component | undefined
+  component(name: string, component: Component): this
   directive(name: string): Directive | undefined
   directive(name: string, directive: Directive): this
   mount(
@@ -67,7 +62,7 @@ export interface AppConfig {
 export interface AppContext {
   config: AppConfig
   mixins: ComponentOptions[]
-  components: Record<string, PublicAPIComponent>
+  components: Record<string, Component>
   directives: Record<string, Directive>
   provides: Record<string | symbol, any>
   reload?: () => void // HMR only
@@ -101,7 +96,7 @@ export function createAppContext(): AppContext {
 }
 
 export type CreateAppFunction<HostElement> = (
-  rootComponent: PublicAPIComponent,
+  rootComponent: Component,
   rootProps?: Data | null
 ) => App<HostElement>
 
@@ -172,7 +167,7 @@ export function createAppAPI<HostElement>(
         return app
       },
 
-      component(name: string, component?: PublicAPIComponent): any {
+      component(name: string, component?: Component): any {
         if (__DEV__) {
           validateComponentName(name, context.config)
         }

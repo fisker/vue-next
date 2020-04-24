@@ -4,7 +4,6 @@ import {
   SetupContext,
   RenderFunction,
   SFCInternalOptions,
-  PublicAPIComponent,
   Component
 } from './component'
 import {
@@ -102,7 +101,7 @@ export interface ComponentOptionsBase<
     push: (item: any) => void,
     parentInstance: ComponentInternalInstance
   ) => void
-  components?: Record<string, PublicAPIComponent>
+  components?: Record<string, Component>
   directives?: Record<string, Directive>
   inheritAttrs?: boolean
   emits?: E | EE[]

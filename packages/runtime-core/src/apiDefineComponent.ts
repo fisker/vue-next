@@ -59,6 +59,9 @@ export function defineComponent<
     E,
     VNodeProps & Props
   >
+  // make the type compatible with `Component`.
+  // this can be just `typeof options` but it's not supported by API extractor
+  // yet
 } & ComponentOptionsWithoutProps<Props, RawBindings, D, C, M, E, EE>
 
 // overload 3: object format with array props declaration

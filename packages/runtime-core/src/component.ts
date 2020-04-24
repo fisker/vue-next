@@ -73,12 +73,6 @@ export interface ClassComponent {
 
 export type Component = ComponentOptions | FunctionalComponent<any>
 
-// A type used in public APIs where a component type is expected.
-// The constructor type is an artificial type returned by defineComponent().
-export type PublicAPIComponent =
-  | Component
-  | { new (...args: any[]): ComponentPublicInstance<any, any, any, any, any> }
-
 export { ComponentOptions }
 
 type LifecycleHook = Function[] | null
